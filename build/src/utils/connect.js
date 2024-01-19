@@ -12,10 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const config_1 = __importDefault(require("config"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const connect = () => __awaiter(void 0, void 0, void 0, function* () {
-    const dbUri = config_1.default.get("db");
+    const dbUri = process.env.DATABASE_URL;
     try {
         mongoose_1.default.set('strictQuery', false);
         yield mongoose_1.default.connect(dbUri);

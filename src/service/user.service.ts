@@ -7,8 +7,8 @@ import { createSession } from "./session.service"
 import { signJWT } from "../utils/jwt.utils"
 import config from "config"
 
-const accessTokenTtl = config.get<string>("accessTokenTtl") // 1 mins
-const refreshTokenTtl = config.get<string>("refreshTokenTtl") // 1 month
+const accessTokenTtl = "5m"
+const refreshTokenTtl = "30d"
 
 export const createUserSession = async (loginDetails: { email: string, password: string }, userAgent: string) => {
     const user = await validatePassword(loginDetails)

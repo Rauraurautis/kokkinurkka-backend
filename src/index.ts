@@ -9,7 +9,7 @@ import { errorHandler } from "./middleware/errorHandler"
 import csrf from "csurf"
 import cookieParser from "cookie-parser"
 
-const PORT = config.get("port")
+const PORT = process.env.PORT
 const app = express()
 
 app.use(cookieParser())

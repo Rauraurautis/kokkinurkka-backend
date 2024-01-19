@@ -19,9 +19,8 @@ const AppError_1 = require("../utils/AppError");
 const errorCodes_1 = require("../constants/errorCodes");
 const session_service_1 = require("./session.service");
 const jwt_utils_1 = require("../utils/jwt.utils");
-const config_1 = __importDefault(require("config"));
-const accessTokenTtl = config_1.default.get("accessTokenTtl"); // 1 mins
-const refreshTokenTtl = config_1.default.get("refreshTokenTtl"); // 1 month
+const accessTokenTtl = "5m";
+const refreshTokenTtl = "30d";
 const createUserSession = (loginDetails, userAgent) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield (0, exports.validatePassword)(loginDetails);
     if (!user) {

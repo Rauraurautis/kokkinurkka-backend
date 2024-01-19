@@ -2,7 +2,7 @@ import config from "config"
 import mongoose from "mongoose"
 
 const connect = async () => {
-    const dbUri = config.get<string>("db")
+    const dbUri = process.env.DATABASE_URL as string
     try {
         mongoose.set('strictQuery', false);
         await mongoose.connect(dbUri)
