@@ -7,7 +7,7 @@ exports.default = {
     saltWorkFactor: 10,
     accessTokenTtl: "5m",
     refreshTokenTtl: "30d",
-    publicKey: process.env.PUBLIC_KEY,
-    privateKey: process.env.PRIVATE_KEY,
+    publicKey: process.env.PUBLIC_KEY || "",
+    privateKey: process.env.PRIVATE_KEY || "",
     mode: process.env.NODE_ENV
 };
