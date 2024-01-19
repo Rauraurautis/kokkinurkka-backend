@@ -1,6 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import { CreateCommentInput } from "../schema/comment.schema";
-import { CreateRecipeInput } from "../schema/recipe.schema";
 import { addRecipe, commentRecipe, deleteComment, deleteRecipe, favoriteRecipe, getAllRecipes, getSingleRecipe } from "../service/recipe.service";
 import { AppError } from "../utils/AppError";
 import logger from "../utils/logger";

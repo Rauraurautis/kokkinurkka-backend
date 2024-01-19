@@ -1,5 +1,4 @@
 import { DocumentDefinition, FilterQuery } from "mongoose"
-import bcrypt from "bcrypt"
 import UserModel, { UserDocument } from "../models/user.model"
 import { omit } from "lodash"
 import { AppError } from "../utils/AppError"
