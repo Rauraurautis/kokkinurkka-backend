@@ -19,13 +19,11 @@ const routes_1 = __importDefault(require("./routes"));
 const connect_1 = __importDefault(require("./utils/connect"));
 const deserializeUser_1 = require("./middleware/deserializeUser");
 const errorHandler_1 = require("./middleware/errorHandler");
-const csurf_1 = __importDefault(require("csurf"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const PORT = process.env.PORT;
 const app = (0, express_1.default)();
 app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)({ exposedHeaders: ["x-access-token", "CSRF-Token"], origin: "http://localhost:3000", methods: ["POST", "PUT", "DELETE"], credentials: true }));
-app.use((0, csurf_1.default)({ cookie: true }));
 app.use(express_1.default.json());
 app.use(deserializeUser_1.deserializeUser);
 app.listen(PORT, () => __awaiter(void 0, void 0, void 0, function* () {

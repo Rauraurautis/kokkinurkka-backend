@@ -47,7 +47,7 @@ export const deleteRecipe = async (recipeId: string, user: string) => {
 }
 
 export const getAllRecipes = async () => {
-    return await RecipeModel.find({})
+    return await RecipeModel.find({}, { favoritedBy: 0 })
         .populate("author", { name: 1, _id: 1 })
         .populate({ path: "comments", populate: { path: "user", model: UserModel, select: "name _id" } })
 }

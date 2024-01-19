@@ -84,7 +84,7 @@ const deleteRecipe = (recipeId, user) => __awaiter(void 0, void 0, void 0, funct
 });
 exports.deleteRecipe = deleteRecipe;
 const getAllRecipes = () => __awaiter(void 0, void 0, void 0, function* () {
-    return yield recipe_model_1.default.find({})
+    return yield recipe_model_1.default.find({}, { favoritedBy: 0 })
         .populate("author", { name: 1, _id: 1 })
         .populate({ path: "comments", populate: { path: "user", model: user_model_1.default, select: "name _id" } });
 });
