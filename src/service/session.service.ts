@@ -4,6 +4,7 @@ import SessionModel, { SessionDocument } from "../models/session.model"
 import { signJWT, verifyJwt } from "../utils/jwt.utils"
 import { findUser, getUser } from "./user.service"
 import config from "config"
+import { JwtPayload } from "jsonwebtoken"
 
 export const createSession = async (userId: string, userAgent: string) => {
     const session = await SessionModel.create({ user: userId, userAgent })
@@ -20,22 +21,23 @@ export const findSessions = async (query: FilterQuery<SessionDocument>) => {
 }
 
 export const reIssueAccessToken = async ({ refreshToken }: { refreshToken: string }) => {
-    const { decoded } = verifyJwt(refreshToken)
-    const userId = get(decoded, "_id")
+    const { decoded } = verifyJwt(refreshToken) as JwtPayload
+    const userId = get(decoded?.user, "_id")
 
-    if (!decoded || !userId) return false
-
+    if (!decoded || !userId) {
+        return false
+    }
     const session = await SessionModel.findById(get(decoded, "session"))
+
     if (!session || !session.valid) return false
 
     let user = await findUser(session.user)
-
+    
 
     if (!user) return false
 
     const accessTokenTtl = config.get<string>("accessTokenTtl")
-    const accessToken = signJWT({ ...user, session: session._id }, { expiresIn: accessTokenTtl })
-
+    const accessToken = signJWT({ user: { email: user.email, name: user.name, _id: user._id }, session: session._id }, { expiresIn: accessTokenTtl })
     return accessToken
 }
 

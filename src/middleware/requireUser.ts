@@ -4,6 +4,7 @@ import { AppError } from "../utils/AppError"
 
 export const requireUser = (req: Request, res: Response, next: NextFunction) => {
     const user = res.locals.user
+    console.log(user)
     if (!user) {
         throw new AppError("You need to be logged in", 403, NOT_AUTHORIZED)
     }

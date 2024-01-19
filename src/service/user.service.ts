@@ -8,7 +8,7 @@ import { createSession } from "./session.service"
 import { signJWT } from "../utils/jwt.utils"
 import config from "config"
 
-const accessTokenTtl = config.get<string>("accessTokenTtl") // 15 mins
+const accessTokenTtl = config.get<string>("accessTokenTtl") // 1 mins
 const refreshTokenTtl = config.get<string>("refreshTokenTtl") // 1 month
 
 export const createUserSession = async (loginDetails: { email: string, password: string }, userAgent: string) => {
@@ -17,9 +17,10 @@ export const createUserSession = async (loginDetails: { email: string, password:
     if (!user) {
         throw new AppError("User not found or wrong password", 401, USER_NOT_FOUND)
     }
-    
+
     const session = await createSession(user._id, userAgent)
-    const accessToken = signJWT({ user, session: session._id }, { expiresIn: accessTokenTtl })
+
+    const accessToken = signJWT({ user: { email: user.email, name: user.name, _id: user._id }, session: session._id }, { expiresIn: accessTokenTtl })
     const refreshToken = signJWT({ user, session: session._id }, { expiresIn: refreshTokenTtl })
 
     return { accessToken, refreshToken }
@@ -44,6 +45,7 @@ export const validatePassword = async ({ email, password }: { email: string, pas
 
 export const getUser = async (userId: string, user: string) => {
     if (userId !== user) {
+        console.log(userId, user)
         throw new AppError("Users do not match", 403, 310)
     }
     const queriedUser = await UserModel.findById(userId).populate("favorites").populate("recipes")

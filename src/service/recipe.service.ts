@@ -3,8 +3,6 @@ import { INCORRECT_FORMAT, NOT_AUTHORIZED, NOT_FOUND_RECIPE } from "../constants
 import RecipeModel, { CommentDocument, CommentInput, CommentModel, RecipeDocument } from "../models/recipe.model";
 import UserModel from "../models/user.model";
 import { AppError } from "../utils/AppError";
-import sharp from "sharp";
-import { PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
 import s3Client, { bucketName, uploadImage } from "../utils/imageStore";
 
 export const addRecipe = async (input: DocumentDefinition<Omit<RecipeDocument, "createdAt" | "updatedAt" | "author" | "comments" | "favoritedBy">>, userId: string, picture: Express.Multer.File) => {

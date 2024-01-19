@@ -8,13 +8,13 @@ import { omit } from "lodash"
 import { USER_NOT_FOUND } from "../constants/errorCodes"
 import { AppError } from "../utils/AppError"
 
-const accessTokenTtl = config.get<string>("accessTokenTtl") // 15 mins
-const refreshTokenTtl = config.get<string>("refreshTokenTtl") // 1 month
 
 export const createUserSessionHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const tokens = await createUserSession(req.body, req.get("user-agent") || "")
-        return res.send(tokens)
+        return res.cookie("refreshToken", tokens.refreshToken, { httpOnly: true, sameSite: "strict" })
+            .cookie("accessToken", tokens.accessToken, { httpOnly: true, sameSite: "strict" })
+            .send({ accessToken: tokens.accessToken })
     } catch (error: any) {
         next(error)
     }

@@ -6,17 +6,23 @@ import routes from "./routes"
 import connect from "./utils/connect"
 import { deserializeUser } from "./middleware/deserializeUser"
 import { errorHandler } from "./middleware/errorHandler"
+import csrf from "csurf"
+import cookieParser from "cookie-parser"
 
 const PORT = config.get("port")
 const app = express()
 
-app.use(cors({ exposedHeaders: "x-access-token" }))
+app.use(cookieParser())
+app.use(cors({ exposedHeaders: ["x-access-token", "CSRF-Token"], origin: "http://localhost:3000", methods: ["POST", "PUT", "DELETE"], credentials: true }))
+
+app.use(csrf({ cookie: true }))
+
 app.use(express.json())
 app.use(deserializeUser)
 
 app.listen(PORT, async () => {
-    logger.info(`Listening to port ${PORT}`)
     await connect()
+    logger.info(`Listening to port ${PORT}`)
     routes(app)
     app.use(errorHandler)
 })

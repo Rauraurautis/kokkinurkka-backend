@@ -4,7 +4,7 @@ export default {
     port: 1337,
     db: process.env.DATABASE_URL,
     saltWorkFactor: 10,
-    accessTokenTtl: "1h",
+    accessTokenTtl: "5m",
     refreshTokenTtl: "30d",
     publicKey:
         `-----BEGIN PUBLIC KEY-----

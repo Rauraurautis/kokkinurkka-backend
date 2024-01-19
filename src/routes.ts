@@ -9,11 +9,13 @@ import { createCommentSchema } from "./schema/comment.schema"
 import { createRecipeSchema } from "./schema/recipe.schema"
 import { createSessionSchema } from "./schema/session.schema"
 import { createUserSchema } from "./schema/user.schema"
-import { multerConfig } from "../multer-config"
+import csrf from "csurf"
 import { parseJSON } from "./middleware/parseJson"
 import upload from "./utils/upload"
 import path from "path"
 import fs from "fs"
+
+
 
 const getImageHandler = async (req: Request, res: Response) => {
     const { filename } = req.params;
@@ -34,6 +36,11 @@ const getImageHandler = async (req: Request, res: Response) => {
 const routes = (app: Express) => {
     app.get("/healthcheck", (req: Request, res: Response) => {
         res.status(200).json({ status: "OK" })
+    })
+
+    app.get("/csrf-token", (req: Request, res: Response) => {
+        res.cookie("asd", "asd", { sameSite: "strict" })
+        res.json({ csrfToken: req.csrfToken() })
     })
 
     app.post("/api/sessions", validateResource(createSessionSchema), createUserSessionHandler)

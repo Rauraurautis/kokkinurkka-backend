@@ -65,6 +65,7 @@ export const commentRecipeHandler = async (req: Request, res: Response, next: Ne
 
 export const deleteCommentHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        console.log("asdasd")
         const user = res.locals.user._id
         const recipeId = req.params.recipeId
         const commentId = req.body.commentId
