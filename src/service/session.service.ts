@@ -3,7 +3,6 @@ import { FilterQuery, UpdateQuery } from "mongoose"
 import SessionModel, { SessionDocument } from "../models/session.model"
 import { signJWT, verifyJwt } from "../utils/jwt.utils"
 import { findUser, getUser } from "./user.service"
-import config from "config"
 import { JwtPayload } from "jsonwebtoken"
 
 export const createSession = async (userId: string, userAgent: string) => {
@@ -36,7 +35,7 @@ export const reIssueAccessToken = async ({ refreshToken }: { refreshToken: strin
 
     if (!user) return false
 
-    const accessTokenTtl = config.get<string>("accessTokenTtl")
+    const accessTokenTtl = "5m"
     const accessToken = signJWT({ user: { email: user.email, name: user.name, _id: user._id }, session: session._id }, { expiresIn: accessTokenTtl })
     return accessToken
 }

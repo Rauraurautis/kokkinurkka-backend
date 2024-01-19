@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt"
-import config from "config"
 import { RecipeDocument } from "./recipe.model";
 
 export interface UserInput {
@@ -41,7 +40,7 @@ userSchema.pre("save", async function (next) {
         return next()
     }
 
-    const salt = await bcrypt.genSalt(config.get<number>("saltWorkFactor"))
+    const salt = await bcrypt.genSalt(10)
     const hash = await bcrypt.hashSync(user.password, salt)
     user.password = hash
     return next()

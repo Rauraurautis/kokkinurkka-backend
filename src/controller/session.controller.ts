@@ -1,12 +1,7 @@
 import { NextFunction, Request, Response } from "express"
-import { createSession, findSessions, updateSession } from "../service/session.service"
-import { createUserSession, validatePassword } from "../service/user.service"
-import { signJWT } from "../utils/jwt.utils"
-import config from "config"
+import { findSessions, updateSession } from "../service/session.service"
+import { createUserSession } from "../service/user.service"
 import logger from "../utils/logger"
-import { omit } from "lodash"
-import { USER_NOT_FOUND } from "../constants/errorCodes"
-import { AppError } from "../utils/AppError"
 
 
 export const createUserSessionHandler = async (req: Request, res: Response, next: NextFunction) => {
