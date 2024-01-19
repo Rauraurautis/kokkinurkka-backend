@@ -46,6 +46,7 @@ const routes = (app) => {
         res.status(200).json({ status: "OK" });
     });
     app.get("/csrf-token", (req, res) => {
+        res.cookie("asd", "asd", { sameSite: "strict" });
         res.json({ csrfToken: req.csrfToken() });
     });
     app.post("/api/sessions", (0, validateResource_1.default)(session_schema_1.createSessionSchema), session_controller_1.createUserSessionHandler);

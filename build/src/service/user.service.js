@@ -20,7 +20,7 @@ const errorCodes_1 = require("../constants/errorCodes");
 const session_service_1 = require("./session.service");
 const jwt_utils_1 = require("../utils/jwt.utils");
 const config_1 = __importDefault(require("config"));
-const accessTokenTtl = config_1.default.get("accessTokenTtl"); // 15 mins
+const accessTokenTtl = config_1.default.get("accessTokenTtl"); // 1 mins
 const refreshTokenTtl = config_1.default.get("refreshTokenTtl"); // 1 month
 const createUserSession = (loginDetails, userAgent) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield (0, exports.validatePassword)(loginDetails);
@@ -28,7 +28,7 @@ const createUserSession = (loginDetails, userAgent) => __awaiter(void 0, void 0,
         throw new AppError_1.AppError("User not found or wrong password", 401, errorCodes_1.USER_NOT_FOUND);
     }
     const session = yield (0, session_service_1.createSession)(user._id, userAgent);
-    const accessToken = (0, jwt_utils_1.signJWT)({ user, session: session._id }, { expiresIn: accessTokenTtl });
+    const accessToken = (0, jwt_utils_1.signJWT)({ user: { email: user.email, name: user.name, _id: user._id }, session: session._id }, { expiresIn: accessTokenTtl });
     const refreshToken = (0, jwt_utils_1.signJWT)({ user, session: session._id }, { expiresIn: refreshTokenTtl });
     return { accessToken, refreshToken };
 });

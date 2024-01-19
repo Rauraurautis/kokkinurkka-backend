@@ -81,6 +81,7 @@ const commentRecipeHandler = (req, res, next) => __awaiter(void 0, void 0, void 
 exports.commentRecipeHandler = commentRecipeHandler;
 const deleteCommentHandler = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log("asdasd");
         const user = res.locals.user._id;
         const recipeId = req.params.recipeId;
         const commentId = req.body.commentId;

@@ -10,13 +10,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deserializeUser = void 0;
-const lodash_1 = require("lodash");
 const session_service_1 = require("../service/session.service");
 const jwt_utils_1 = require("../utils/jwt.utils");
 const deserializeUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
-    const accessToken = (_a = (0, lodash_1.get)(req, "headers.authorization")) === null || _a === void 0 ? void 0 : _a.replace(/^Bearer\s/, "");
-    const refreshToken = (0, lodash_1.get)(req, "headers.x-refresh");
+    const refreshToken = req.cookies["refreshToken"];
+    const accessToken = req.cookies["accessToken"];
     if (!accessToken) {
         return next();
     }

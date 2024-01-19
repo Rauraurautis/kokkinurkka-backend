@@ -25,13 +25,13 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const PORT = config_1.default.get("port");
 const app = (0, express_1.default)();
 app.use((0, cookie_parser_1.default)());
-app.use((0, cors_1.default)({ exposedHeaders: ["x-access-token", "CSRF-Token"], origin: "http://localhost:3000", methods: "POST", credentials: true }));
+app.use((0, cors_1.default)({ exposedHeaders: ["x-access-token", "CSRF-Token"], origin: "http://localhost:3000", methods: ["POST", "PUT", "DELETE"], credentials: true }));
 app.use((0, csurf_1.default)({ cookie: true }));
 app.use(express_1.default.json());
 app.use(deserializeUser_1.deserializeUser);
 app.listen(PORT, () => __awaiter(void 0, void 0, void 0, function* () {
-    logger_1.default.info(`Listening to port ${PORT}`);
     yield (0, connect_1.default)();
+    logger_1.default.info(`Listening to port ${PORT}`);
     (0, routes_1.default)(app);
     app.use(errorHandler_1.errorHandler);
 }));

@@ -33,9 +33,10 @@ const findSessions = (query) => __awaiter(void 0, void 0, void 0, function* () {
 exports.findSessions = findSessions;
 const reIssueAccessToken = ({ refreshToken }) => __awaiter(void 0, void 0, void 0, function* () {
     const { decoded } = (0, jwt_utils_1.verifyJwt)(refreshToken);
-    const userId = (0, lodash_1.get)(decoded, "_id");
-    if (!decoded || !userId)
+    const userId = (0, lodash_1.get)(decoded === null || decoded === void 0 ? void 0 : decoded.user, "_id");
+    if (!decoded || !userId) {
         return false;
+    }
     const session = yield session_model_1.default.findById((0, lodash_1.get)(decoded, "session"));
     if (!session || !session.valid)
         return false;
@@ -43,7 +44,7 @@ const reIssueAccessToken = ({ refreshToken }) => __awaiter(void 0, void 0, void 
     if (!user)
         return false;
     const accessTokenTtl = config_1.default.get("accessTokenTtl");
-    const accessToken = (0, jwt_utils_1.signJWT)(Object.assign(Object.assign({}, user), { session: session._id }), { expiresIn: accessTokenTtl });
+    const accessToken = (0, jwt_utils_1.signJWT)({ user: { email: user.email, name: user.name, _id: user._id }, session: session._id }, { expiresIn: accessTokenTtl });
     return accessToken;
 });
 exports.reIssueAccessToken = reIssueAccessToken;

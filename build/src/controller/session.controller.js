@@ -15,14 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteSessionHandler = exports.getUserSessionsHandler = exports.createUserSessionHandler = void 0;
 const session_service_1 = require("../service/session.service");
 const user_service_1 = require("../service/user.service");
-const config_1 = __importDefault(require("config"));
 const logger_1 = __importDefault(require("../utils/logger"));
-const accessTokenTtl = config_1.default.get("accessTokenTtl"); // 15 mins
-const refreshTokenTtl = config_1.default.get("refreshTokenTtl"); // 1 month
 const createUserSessionHandler = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const tokens = yield (0, user_service_1.createUserSession)(req.body, req.get("user-agent") || "");
-        return res.send(tokens);
+        return res.cookie("refreshToken", tokens.refreshToken, { httpOnly: true, sameSite: "strict" })
+            .cookie("accessToken", tokens.accessToken, { httpOnly: true, sameSite: "strict" })
+            .send({ accessToken: tokens.accessToken });
     }
     catch (error) {
         next(error);
