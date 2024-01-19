@@ -25,16 +25,16 @@ const PORT = process.env.PORT;
 const app = (0, express_1.default)();
 app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)({ exposedHeaders: ["x-access-token", "CSRF-Token"], origin: "http://localhost:3000", methods: ["POST", "PUT", "DELETE"], credentials: true }));
-app.use(express_1.default.static(path_1.default.join(__dirname, 'client/build')));
+console.log(path_1.default.join(__dirname, '../client/build'));
+app.use(express_1.default.static(path_1.default.join(__dirname, '../client/build')));
 app.use(express_1.default.json());
 app.use(deserializeUser_1.deserializeUser);
 app.listen(PORT, () => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, connect_1.default)();
-    console.log(path_1.default.join(__dirname, 'client/build'));
     logger_1.default.info(`Listening to port ${PORT}`);
     (0, routes_1.default)(app);
     app.get('*', (req, res) => {
-        res.sendFile(path_1.default.join(__dirname, 'client/build', 'index.html'));
+        res.sendFile(path_1.default.join(__dirname, '../client/build', 'index.html'));
     });
     app.use(errorHandler_1.errorHandler);
 }));

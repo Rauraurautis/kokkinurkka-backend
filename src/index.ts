@@ -13,13 +13,13 @@ const app = express()
 
 app.use(cookieParser())
 app.use(cors({ exposedHeaders: ["x-access-token", "CSRF-Token"], origin: "http://localhost:3000", methods: ["POST", "PUT", "DELETE"], credentials: true }))
-app.use(express.static(path.join(__dirname, 'client/build')));
+console.log(path.join(__dirname, '../client/build'))
+app.use(express.static(path.join(__dirname, '../client/build')));
 app.use(express.json())
 app.use(deserializeUser)
 
 app.listen(PORT, async () => {
     await connect()
-    console.log(path.join(__dirname, 'client/build'))
     logger.info(`Listening to port ${PORT}`)
 
 
@@ -28,7 +28,7 @@ app.listen(PORT, async () => {
 
     routes(app)
     app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+        res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
     });
     app.use(errorHandler)
 })
