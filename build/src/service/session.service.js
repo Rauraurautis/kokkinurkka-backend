@@ -17,7 +17,6 @@ const lodash_1 = require("lodash");
 const session_model_1 = __importDefault(require("../models/session.model"));
 const jwt_utils_1 = require("../utils/jwt.utils");
 const user_service_1 = require("./user.service");
-const config_1 = __importDefault(require("config"));
 const createSession = (userId, userAgent) => __awaiter(void 0, void 0, void 0, function* () {
     const session = yield session_model_1.default.create({ user: userId, userAgent });
     return session;
@@ -43,7 +42,7 @@ const reIssueAccessToken = ({ refreshToken }) => __awaiter(void 0, void 0, void 
     let user = yield (0, user_service_1.findUser)(session.user);
     if (!user)
         return false;
-    const accessTokenTtl = config_1.default.get("accessTokenTtl");
+    const accessTokenTtl = "5m";
     const accessToken = (0, jwt_utils_1.signJWT)({ user: { email: user.email, name: user.name, _id: user._id }, session: session._id }, { expiresIn: accessTokenTtl });
     return accessToken;
 });
