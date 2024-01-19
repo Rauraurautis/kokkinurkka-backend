@@ -28,6 +28,7 @@ const deserializeUser = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
         const newAccessToken = yield (0, session_service_1.reIssueAccessToken)({ refreshToken });
         if (newAccessToken) {
             res.setHeader("x-access-token", newAccessToken);
+            res.cookie("accessToken", newAccessToken, { httpOnly: true, sameSite: "strict" });
             const result = (0, jwt_utils_1.verifyJwt)(newAccessToken);
             res.locals.user = result.decoded;
             return next();

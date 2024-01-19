@@ -7,13 +7,13 @@ import { JwtPayload } from "jsonwebtoken";
 export const deserializeUser = async (req: Request, res: Response, next: NextFunction) => {
     const refreshToken = req.cookies["refreshToken"]
     const accessToken = req.cookies["accessToken"]
-    
+
 
     if (!accessToken) {
         return next()
     }
     const { decoded, expired } = verifyJwt(accessToken)
-    
+
     if (decoded) {
         const { user } = decoded as JwtPayload
         res.locals.user = user
@@ -24,6 +24,7 @@ export const deserializeUser = async (req: Request, res: Response, next: NextFun
         const newAccessToken = await reIssueAccessToken({ refreshToken })
         if (newAccessToken) {
             res.setHeader("x-access-token", newAccessToken)
+            res.cookie("accessToken", newAccessToken, { httpOnly: true, sameSite: "strict" })
             const result = verifyJwt(newAccessToken)
             res.locals.user = result.decoded
             return next()
