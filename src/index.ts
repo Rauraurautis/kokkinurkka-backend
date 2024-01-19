@@ -19,6 +19,7 @@ app.use(deserializeUser)
 
 app.listen(PORT, async () => {
     await connect()
+    console.log(path.join(__dirname, '../client/build'))
     logger.info(`Listening to port ${PORT}`)
 
 
