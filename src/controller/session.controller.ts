@@ -7,8 +7,8 @@ import logger from "../utils/logger"
 export const createUserSessionHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const tokens = await createUserSession(req.body, req.get("user-agent") || "")
-        return res.cookie("refreshToken", tokens.refreshToken, { httpOnly: true, sameSite: "strict" })
-            .cookie("accessToken", tokens.accessToken, { httpOnly: true, sameSite: "strict" })
+        return res.cookie("refreshToken", tokens.refreshToken, { httpOnly: true, sameSite: process.env.NODE_ENV === "DEVELOPMENT" ? "lax" : "strict" })
+            .cookie("accessToken", tokens.accessToken, { httpOnly: true, sameSite: process.env.NODE_ENV === "DEVELOPMENT" ? "lax" : "strict" })
             .send({ accessToken: tokens.accessToken })
     } catch (error: any) {
         next(error)

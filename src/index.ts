@@ -13,7 +13,6 @@ const app = express()
 
 app.use(cookieParser())
 app.use(cors({ exposedHeaders: ["x-access-token", "CSRF-Token"], origin: "http://localhost:3000", methods: ["POST", "PUT", "DELETE"], credentials: true }))
-console.log(path.join(__dirname, '../client/build'))
 app.use(express.static(path.join(__dirname, '../client/build')));
 app.use(express.json())
 app.use(deserializeUser)

@@ -7,7 +7,7 @@ import { JwtPayload } from "jsonwebtoken";
 export const deserializeUser = async (req: Request, res: Response, next: NextFunction) => {
     const refreshToken = req.cookies["refreshToken"]
     const accessToken = req.cookies["accessToken"]
-
+    console.log(accessToken)
 
     if (!accessToken) {
         return next()
@@ -17,6 +17,7 @@ export const deserializeUser = async (req: Request, res: Response, next: NextFun
     if (decoded) {
         const { user } = decoded as JwtPayload
         res.locals.user = user
+        
         return next()
     }
 
